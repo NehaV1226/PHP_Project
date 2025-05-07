@@ -1,0 +1,22 @@
+<?php
+include 'db.php';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $stmt = $conn->prepare("update empinfo set age=? where name=? and id=?");
+    $stmt->bind_param("isi", $age, $name, $id);
+    $age = $_POST["age"];
+    $name = $_POST["name"];
+    $id = $_POST["id"];
+
+    if ($stmt->execute()) {
+        if ($stmt->affected_rows > 0) {
+            echo "Data Upadted";
+        } else {
+            echo "No match, check the entered data.";
+        }
+    } else {
+        echo "Error" . $stmt->error;
+    }
+    $stmt->close();
+    $conn->close();
+}
+?>

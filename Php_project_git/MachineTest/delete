@@ -1,0 +1,21 @@
+<?php
+include 'db.php';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $stmt = $conn->prepare("delete from empinfo where id=? and name=? and age=? ");
+    $stmt->bind_param("isi", $id, $name, $age);
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    if ($stmt->execute()) {
+        if ($stmt->affected_rows > 0) {
+            echo "Data Deleted";
+        } else {
+            echo "No Match Found";
+        }
+    } else {
+        echo "Error" . $stmt->error;
+    }
+    $stmt->close();
+    $conn->close();
+}
+?>

@@ -1,0 +1,49 @@
+<?php 
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD']=='POST'){
+    $stmt=$conn->prepare("insert into empinfo(Id, Name, Age) values (?,?,?)");
+    $stmt->bind_param("isi", $id,$name,$age);
+    $id=$_POST["id"];
+    $name=$_POST["name"];
+    $age=$_POST["age"];
+
+    if($stmt->execute()){
+        echo "Data Inserted";
+    }else{
+        echo "Error". $stmt->error;
+    }
+    $stmt->close();
+    $conn->close();
+}
+
+?>
+
+<!-- insert with session -->
+<?php 
+session_start(); // Start session
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $stmt = $conn->prepare("INSERT INTO empinfo (Id, Name, Age) VALUES (?, ?, ?)");
+    $stmt->bind_param("isi", $id, $name, $age);
+    
+    $id = $_POST["id"];
+    $name = $_POST["name"];
+    $age = $_POST["age"];
+
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Data Inserted Successfully!";
+        $_SESSION['msg_type'] = "success";
+    } else {
+        $_SESSION['message'] = "Error: " . $stmt->error;
+        $_SESSION['msg_type'] = "error";
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    header("Location: insert.php"); // Redirect to the same page to show the message
+    exit();
+}
+?>

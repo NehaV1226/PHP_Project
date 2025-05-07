@@ -1,0 +1,35 @@
+<?php
+include 'db.php';
+?>
+
+<div
+    class="table-responsive">
+    <table
+        class="table table-primary">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $stmt = "SELECT * from register";
+            $result = $conn->query($stmt);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<tr>" . $row['id'] . "</tr>";
+                    echo "<tr>" . $row['name'] . "</tr>";
+                    echo "<tr>" . $row['age'] . "</tr>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='3' class='text-center'>No Record</td></tr>";
+            }
+            $con->close();
+            ?>
+        </tbody>
+    </table>
+</div>

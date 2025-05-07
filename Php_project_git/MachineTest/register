@@ -1,0 +1,18 @@
+<?php
+include 'db.php';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $stmt = $conn->prepare("Insert into register(name,email,username,password) values(?,?,?,?)");
+    $stmt->bind_param("ssss", $name, $email, $username, $password);
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    if ($stml->execute()) {
+        echo "Data Inserted";
+    } else {
+        echo "Error" . $stmt->error;
+    }
+    $stmt->close();
+    $conn->close();
+}
+?>
